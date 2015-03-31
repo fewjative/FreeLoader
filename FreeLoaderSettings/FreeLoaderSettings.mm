@@ -49,7 +49,6 @@
 	[defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH]];
 	[defaults setObject:value forKey:specifier.properties[@"key"]];
 	[defaults writeToFile:PREFERENCES_PATH atomically:YES];
-	NSDictionary * prefs = [NSDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH];
 	CFStringRef toPost = (CFStringRef)specifier.properties[@"PostNotification"];
 	if(toPost)CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
 }
@@ -195,7 +194,6 @@
 	[defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH]];
 	[defaults setObject:value forKey:specifier.properties[@"key"]];
 	[defaults writeToFile:PREFERENCES_PATH atomically:YES];
-	NSDictionary * prefs = [NSDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH];
 	CFStringRef toPost = (CFStringRef)specifier.properties[@"PostNotification"];
 	if(toPost)CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
 }
@@ -252,7 +250,6 @@
 	[defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH]];
 	[defaults setObject:value forKey:specifier.properties[@"key"]];
 	[defaults writeToFile:PREFERENCES_PATH atomically:YES];
-	NSDictionary * prefs = [NSDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH];
 	CFStringRef toPost = (CFStringRef)specifier.properties[@"PostNotification"];
 	if(toPost)CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
 }
@@ -309,7 +306,6 @@
 	[defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH]];
 	[defaults setObject:value forKey:specifier.properties[@"key"]];
 	[defaults writeToFile:PREFERENCES_PATH atomically:YES];
-	NSDictionary * prefs = [NSDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH];
 	CFStringRef toPost = (CFStringRef)specifier.properties[@"PostNotification"];
 	if(toPost)CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
 }
@@ -366,7 +362,6 @@
 	[defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH]];
 	[defaults setObject:value forKey:specifier.properties[@"key"]];
 	[defaults writeToFile:PREFERENCES_PATH atomically:YES];
-	NSDictionary * prefs = [NSDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH];
 	CFStringRef toPost = (CFStringRef)specifier.properties[@"PostNotification"];
 	if(toPost)CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
 }

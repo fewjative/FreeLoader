@@ -6,7 +6,6 @@
 #define SETTINGSDOMAIN "com.joshdoctors.freeloader"
 
 static BOOL enabled = NO;
-static NSDictionary * preferences;
 
 static NSInteger whiteStyleSpokeCount = 12;
 static CGFloat whiteStyleSpeed = 1;
