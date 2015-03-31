@@ -92,7 +92,7 @@
     	}
     	else if(alertView.tag == kRespringAlertTag2)
     	{
-    		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.joshdoctors.com"]];
+    		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.github.com/fewjative/FreeLoader"]];
     	}
     }
 }
