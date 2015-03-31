@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+        <dict>
+            <key>PostNotification</key>
+            <string>com.joshdoctors.freeloader/settingschanged</string>
+            <key>cell</key>
+            <string>PSSwitchCell</string>
+            <key>default</key>
+            <false/>
+            <key>defaults</key>
+            <string>com.joshdoctors.freeloader</string>
+            <key>key</key>
+            <string>grayStyleCustomColor</string>
+            <key>label</key>
+            <string>Allow Colorization</string>
+        </dict>
+		<dict>
+            <key>cell</key>             <string>PSEditTextCell</string>
+            <key>defaults</key>         <string>com.joshdoctors.freeloader</string>
+            <key>key</key>              <string>grayStyleSpokeCount</string>
+            <key>label</key>            <string>Image Count</string>
+            <key>PostNotification</key> <string>com.joshdoctors.freeloader/settingschanged</string>
+        </dict>
+        <dict>
+            <key>cell</key>             <string>PSEditTextCell</string>
+            <key>defaults</key>         <string>com.joshdoctors.freeloader</string>
+            <key>key</key>              <string>grayStyleSpeed</string>
+            <key>label</key>            <string>Animation Speed</string>
+            <key>PostNotification</key> <string>com.joshdoctors.freeloader/settingschanged</string>
+        </dict>
+        <dict>
+            <key>cell</key>             <string>PSButtonCell</string>
+            <key>label</key>            <string>Save</string>
+            <key>action</key>           <string>save</string>
+        </dict>
+        <dict>
+			<key>PostNotification</key>
+			<string>com.joshdoctors.freeloader/settingschanged</string>
+			<key>cell</key>  		<string>PSLinkListCell</string>
+			<key>defaults</key> 	<string>com.joshdoctors.freeloader</string>
+ 			<key>detail</key> 		<string>PSListItemsController</string>
+ 			<key>key</key> 			<string>grayStyleTheme</string>
+ 			<key>label</key> 		<string>Theme Location</string>
+ 			<key>validTitles</key>
+ 			<array>
+ 			</array>
+ 			<key>validValues</key>
+ 			<array>
+ 			</array>
+ 			<key>id</key>
+			<string>themeList</string>
+		</dict>
+        <dict>
+            <key>cell</key>             <string>PSButtonCell</string>
+            <key>label</key>            <string>Refresh Preview</string>
+            <key>action</key>           <string>drawPreview</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+            <key>headerCellClass</key>
+            <string>PreviewCell</string>
+        </dict>
+	</array>
+	<key>title</key>
+	<string>Gray Style Settings</string>
+</dict>
+</plist>

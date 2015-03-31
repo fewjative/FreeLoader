@@ -1,0 +1,10 @@
+{
+    entry = {
+	bundle = FreeLoaderSettings;
+	cell = PSLinkCell;
+	detail = FreeLoaderSettingsListController;
+	icon = FreeLoaderSettings.png;
+	isController = 1;
+	label = FreeLoader;
+    };
+}

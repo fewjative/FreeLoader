@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>FreeLoader</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.joshdoctors.freeloader/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.joshdoctors.freeloader</string>
+			<key>key</key>
+			<string>enabled</string>
+			<key>label</key>
+			<string>Enable Tweak</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>detail</key>
+			<string>WhiteSettingsListController</string>
+			<key>icon</key>
+			<string>white@2x.png</string>
+			<key>isController</key>
+			<true/>
+			<key>key</key>
+			<string>WhiteStyle</string>
+			<key>label</key>
+			<string>White Style</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>detail</key>
+			<string>WhiteLargeSettingsListController</string>
+			<key>icon</key>
+			<string>whiteLarge@2x.png</string>
+			<key>isController</key>
+			<true/>
+			<key>key</key>
+			<string>WhiteLargeStyle</string>
+			<key>label</key>
+			<string>White Large Style</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>detail</key>
+			<string>GraySettingsListController</string>
+			<key>icon</key>
+			<string>gray@2x.png</string>
+			<key>isController</key>
+			<true/>
+			<key>key</key>
+			<string>GrayStyle</string>
+			<key>label</key>
+			<string>Gray Style</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>detail</key>
+			<string>StatusBarSettingsListController</string>
+			<key>icon</key>
+			<string>statusBar@2x.png</string>
+			<key>isController</key>
+			<true/>
+			<key>key</key>
+			<string>StatusBarStyle</string>
+			<key>label</key>
+			<string>Status Bar Style</string>
+		</dict>
+		<dict>
+            <key>cell</key>             <string>PSButtonCell</string>
+            <key>label</key>            <string>Respring</string>
+            <key>action</key>           <string>respring</string>
+        </dict>
+        <dict>
+            <key>cell</key>             <string>PSButtonCell</string>
+            <key>label</key>            <string>Creating A Custom Theme</string>
+            <key>action</key>           <string>customTheme</string>
+        </dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerAlignment</key>
+			<integer>1</integer>
+			<key>footerText</key>
+			<string>Some applications may attempt to tint the color of the loading indicators. If you do not want this to happen, disable the 'Allow Colorization' toggle. Performing a respring will make changes occur immediately. If you add or remove themes from your device, you will have to reconfigure the theme location.</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>About</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>twitter</string>
+			<key>alignment</key>
+			<string>center</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>@Fewjative</string>
+		</dict>
+	</array>
+	<key>title</key>
+	<string>Options</string>
+</dict>
+</plist>
