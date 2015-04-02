@@ -99,16 +99,23 @@
 -(void)loadDirectories{
 
 	NSFileManager * fileManager = [NSFileManager defaultManager];
-	NSArray * contentsArray = [fileManager contentsOfDirectoryAtPath:DOCUMENT error:nil];
-
-	if(contentsArray==nil)
-		return;
+	NSMutableArray * contentsArray = [NSMutableArray arrayWithArray:[fileManager contentsOfDirectoryAtPath:DOCUMENT error:nil]];
 
 	NSMutableArray * countArray = [[NSMutableArray alloc] init];
 
-	for(int i=0; i < [contentsArray count]; i++)
+	if(contentsArray==nil)
 	{
-		[countArray addObject:[NSNumber numberWithInt:i]];
+		[countArray addObject:[NSNumber numberWithInt:0]];
+		contentsArray = [NSMutableArray arrayWithObjects:@"Default(No Theme)", nil];
+	}
+	else
+	{
+		[contentsArray addObject:@"Default(No Theme)"];
+
+		for(int i=0; i < [contentsArray count]; i++)
+		{
+			[countArray addObject:[NSNumber numberWithInt:i]];
+		}
 	}
 
 	NSMutableDictionary * plistDict = [NSMutableDictionary dictionaryWithContentsOfFile:PREFPLIST_WHITE];

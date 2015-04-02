@@ -206,7 +206,11 @@ static void loadPrefs()
 {
 	NSFileManager * fileManager = [NSFileManager defaultManager];
 	NSArray * contentsArray = [fileManager contentsOfDirectoryAtPath:DOCUMENT error:nil];
-	return [contentsArray objectAtIndex:index];
+
+	if(index >= [contentsArray count]) //this condition is true when a user selects the default theme option.
+		return nil;
+	else
+		return [contentsArray objectAtIndex:index];
 }
 
 + (id)_loadResourcesForStyle:(long long)style
@@ -222,26 +226,27 @@ static void loadPrefs()
 
        long newCount;
        long fileIndex;
+       NSString * themePath = nil;
 
         if(style == 0)
         {
             newCount = whiteLargeStyleSpokeCount;
-            fileIndex = whiteLargeStyleTheme;
+            themePath = [self getPathComponentFromIndex:whiteLargeStyleTheme];
         }
         else if(style == 1)
         {
             newCount = whiteStyleSpokeCount;
-            fileIndex = whiteStyleTheme;
+            themePath = [self getPathComponentFromIndex:whiteStyleTheme];
         }
         else if(style == 2)
         {
             newCount = grayStyleSpokeCount;
-            fileIndex = grayStyleTheme;
+            themePath = [self getPathComponentFromIndex:grayStyleTheme];
         }
         else if(style == 6)
         {
             newCount = statusBarStyleSpokeCount;
-            fileIndex = statusBarStyleTheme;
+            themePath = [self getPathComponentFromIndex:statusBarStyleTheme];
         }
         else
         {
@@ -249,25 +254,28 @@ static void loadPrefs()
         	return orig;
         }
 
+        if(themePath==nil)
+        	return orig;
+
        for (int i = 0; i < newCount; i++)
        {
             NSString *imagePath = nil;
 
             if(style == 0)
             {
-                imagePath = [NSString stringWithFormat:@"/Library/Application Support/FreeLoader/%@/UIActivityIndicatorViewStyleWhiteLarge.%d.png",[self getPathComponentFromIndex:fileIndex], i];
+                imagePath = [NSString stringWithFormat:@"/Library/Application Support/FreeLoader/%@/WhiteLarge.%d.png",themePath, i];
             }
             else if(style == 1)
             {
-                imagePath = [NSString stringWithFormat:@"/Library/Application Support/FreeLoader/%@/UIActivityIndicatorViewStyleWhite.%d.png",[self getPathComponentFromIndex:fileIndex], i];
+                imagePath = [NSString stringWithFormat:@"/Library/Application Support/FreeLoader/%@/White.%d.png",themePath, i];
             }
             else if(style == 2)
             {
-                imagePath = [NSString stringWithFormat:@"/Library/Application Support/FreeLoader/%@/UIActivityIndicatorViewStyleGray.%d.png",[self getPathComponentFromIndex:fileIndex], i];
+                imagePath = [NSString stringWithFormat:@"/Library/Application Support/FreeLoader/%@/Gray.%d.png",themePath, i];
             }
             else if(style == 6)
             {
-                imagePath = [NSString stringWithFormat:@"/Library/Application Support/FreeLoader/%@/UIActivityIndicatorViewStyleStatusBar.%d.png",[self getPathComponentFromIndex:fileIndex], i];
+                imagePath = [NSString stringWithFormat:@"/Library/Application Support/FreeLoader/%@/StatusBar.%d.png",themePath, i];
             }
 
             UIImage * image = [UIImage imageWithContentsOfFile:imagePath];
