@@ -3,7 +3,10 @@ Frees iOS from its loading indicator frame count limitation. Also allows for cus
 
 Everything you need to know about customs themes:
 
-Currently, there are 4 themeable styles - White, WhiteLarge, Gray, and StatusBar which correspond to:
+Currently, there are 4 themeable styles - White, WhiteLarge, Gray, and StatusBar. The white style contains a white indicator, the white large style also contains a white indicator, the gray style contains a gray indicator(I found #939393 to be the color which matched the gray apple uses), and the status bar style contains a black indicator.
+
+If you ever themed the indicators in the past via Winterboard, you would know Apple names their images like such:
+
 UIActivityIndicatorViewStyleWhite
 
 UIActivityIndicatorViewStyleWhiteLarge
@@ -14,7 +17,10 @@ UIActivityIndicatorViewStyleStatusBar
 
 Images for the White style are 40px by 40px @2x, images for the WhiteLarge style are  74px by 74px @2x, images for the Gray style are 40px by 40px @2x, and images for the StatusBar style are 20px by 40px @2x.
 
-Let's say we wanted to make a theme for the White style, the first image would be named UIActivityIndicatorViewStyleWhite.0@2x.png , the second would be UIActivityIndicatorViewStyleWhite.1@2x.png, the third would be UIActivityIndicatorViewStyleWhite.2@2x.png, and so on. Images must follow this naming convention to be used.
+Let's say we wanted to make a theme for the White style, the first image would be named White.0@2x.png , the second would be White.1@2x.png, the third would be White.2@2x.png, and so on. Images must follow this naming convention to be used.
+
+If you are looking for some indicators, you can find a good set from http://preloaders.net/. I would suggest using APNG with a transparent background. Then adjust the color and pixel size to match the indicator you are trying to create. For the status bar style, I would suggest using 20x by 20px then using a tool such as Photoshop to increase the canvas height to 40px(which will still keep the indicator centered).Click generate preloader to verify it looks as you wanted and then click download. Next, head over to http://animizer.net/en/gif-apng-splitter then insert the APNG you downloaded and hit continue to splitter. Then download them in PNG format. Note that the website has a white background so white indicators may not be visible. Now you have a set of image frames and you just need to rename them.
+
 
 Now that we have a set of images created, what do we do with them?
 
