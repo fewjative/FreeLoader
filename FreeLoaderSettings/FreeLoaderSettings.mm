@@ -118,33 +118,8 @@
 		}
 	}
 
-	NSMutableDictionary * plistDict = [NSMutableDictionary dictionaryWithContentsOfFile:PREFPLIST_WHITE];
-	NSMutableArray * items  = plistDict[@"items"];
-	NSMutableDictionary * subset = [items objectAtIndex:4];
-	[subset setObject:contentsArray forKey:@"validTitles"];
-	[subset setObject:countArray forKey:@"validValues"];
-	[plistDict writeToFile:PREFPLIST_WHITE atomically:YES];
-
-	plistDict = [NSMutableDictionary dictionaryWithContentsOfFile:PREFPLIST_WHITELARGE];
-	items  = plistDict[@"items"];
-	subset = [items objectAtIndex:4];
-	[subset setObject:contentsArray forKey:@"validTitles"];
-	[subset setObject:countArray forKey:@"validValues"];
-	[plistDict writeToFile:PREFPLIST_WHITELARGE atomically:YES];
-
-	plistDict = [NSMutableDictionary dictionaryWithContentsOfFile:PREFPLIST_GRAY];
-	items  = plistDict[@"items"];
-	subset = [items objectAtIndex:4];
-	[subset setObject:contentsArray forKey:@"validTitles"];
-	[subset setObject:countArray forKey:@"validValues"];
-	[plistDict writeToFile:PREFPLIST_GRAY atomically:YES];
-
-	plistDict = [NSMutableDictionary dictionaryWithContentsOfFile:PREFPLIST_STATUSBAR];
-	items  = plistDict[@"items"];
-	subset = [items objectAtIndex:4];
-	[subset setObject:contentsArray forKey:@"validTitles"];
-	[subset setObject:countArray forKey:@"validValues"];
-	[plistDict writeToFile:PREFPLIST_STATUSBAR atomically:YES];
+	[[NSUserDefaults standardUserDefaults] setObject:contentsArray forKey:@"FreeLoaderDirecs"];
+	NSLog(@"[FreeLoader]These directories were found and loaded: %@", contentsArray);
 
 	[countArray release];
 }
@@ -173,7 +148,21 @@
 
 @end
 
-@interface WhiteSettingsListController: PSListController {
+@interface QuickInfoListController: PSListController {
+}
+@end
+
+@implementation QuickInfoListController
+- (id)specifiers {
+    if(_specifiers == nil) {
+            _specifiers = [[self loadSpecifiersFromPlistName:@"QuickInfo" target:self] retain];    
+    }
+    return _specifiers;
+}
+
+@end
+
+@interface WhiteSettingsListController: PSListController <UIActionSheetDelegate> {
 }
 @end
 
@@ -205,6 +194,45 @@
 	if(toPost)CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
 }
 
+-(void)setPreferenceValue:(id)value
+{
+	NSMutableDictionary * defaults = [NSMutableDictionary dictionary];
+	[defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH]];
+	[defaults setObject:value forKey:@"whiteStyleTheme"];
+	[defaults writeToFile:PREFERENCES_PATH atomically:YES];
+	CFStringRef toPost = (CFStringRef)@"com.joshdoctors.freeloader/settingschanged";
+	if(toPost)CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
+}
+
+-(void)themeList
+{
+	NSArray * direcs = [[NSUserDefaults standardUserDefaults] objectForKey:@"FreeLoaderDirecs"];
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Themes"
+														delegate:self
+														cancelButtonTitle:nil
+														destructiveButtonTitle:nil
+														otherButtonTitles:nil];
+
+	for(NSString* direc in direcs)
+		[actionSheet addButtonWithTitle:direc];
+
+	[actionSheet setCancelButtonIndex: [actionSheet addButtonWithTitle:@"Cancel"]];
+	[actionSheet showInView:self.view];
+	[actionSheet release];
+}
+
+- (void)actionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if(buttonIndex == actionSheet.cancelButtonIndex)
+	{
+		return;
+	}
+	else
+	{
+		[self setPreferenceValue:[NSNumber numberWithInt:buttonIndex]];
+	}
+}
+
 -(void)drawPreview
 {
     NSArray * array = [[self view] subviews];
@@ -227,7 +255,7 @@
 
 @end
 
-@interface WhiteLargeSettingsListController: PSListController {
+@interface WhiteLargeSettingsListController: PSListController <UIActionSheetDelegate> {
 }
 @end
 
@@ -261,6 +289,45 @@
 	if(toPost)CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
 }
 
+-(void)setPreferenceValue:(id)value
+{
+	NSMutableDictionary * defaults = [NSMutableDictionary dictionary];
+	[defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH]];
+	[defaults setObject:value forKey:@"whiteLargeStyleTheme"];
+	[defaults writeToFile:PREFERENCES_PATH atomically:YES];
+	CFStringRef toPost = (CFStringRef)@"com.joshdoctors.freeloader/settingschanged";
+	if(toPost)CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
+}
+
+-(void)themeList
+{
+	NSArray * direcs = [[NSUserDefaults standardUserDefaults] objectForKey:@"FreeLoaderDirecs"];
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Themes"
+														delegate:self
+														cancelButtonTitle:nil
+														destructiveButtonTitle:nil
+														otherButtonTitles:nil];
+
+	for(NSString* direc in direcs)
+		[actionSheet addButtonWithTitle:direc];
+
+	[actionSheet setCancelButtonIndex: [actionSheet addButtonWithTitle:@"Cancel"]];
+	[actionSheet showInView:self.view];
+	[actionSheet release];
+}
+
+- (void)actionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if(buttonIndex == actionSheet.cancelButtonIndex)
+	{
+		return;
+	}
+	else
+	{
+		[self setPreferenceValue:[NSNumber numberWithInt:buttonIndex]];
+	}
+}
+
 -(void)drawPreview
 {
     NSArray * array = [[self view] subviews];
@@ -283,7 +350,7 @@
 
 @end
 
-@interface GraySettingsListController: PSListController {
+@interface GraySettingsListController: PSListController <UIActionSheetDelegate> {
 }
 @end
 
@@ -317,6 +384,45 @@
 	if(toPost)CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
 }
 
+-(void)setPreferenceValue:(id)value
+{
+	NSMutableDictionary * defaults = [NSMutableDictionary dictionary];
+	[defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH]];
+	[defaults setObject:value forKey:@"grayStyleTheme"];
+	[defaults writeToFile:PREFERENCES_PATH atomically:YES];
+	CFStringRef toPost = (CFStringRef)@"com.joshdoctors.freeloader/settingschanged";
+	if(toPost)CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
+}
+
+-(void)themeList
+{
+	NSArray * direcs = [[NSUserDefaults standardUserDefaults] objectForKey:@"FreeLoaderDirecs"];
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Themes"
+														delegate:self
+														cancelButtonTitle:nil
+														destructiveButtonTitle:nil
+														otherButtonTitles:nil];
+
+	for(NSString* direc in direcs)
+		[actionSheet addButtonWithTitle:direc];
+
+	[actionSheet setCancelButtonIndex: [actionSheet addButtonWithTitle:@"Cancel"]];
+	[actionSheet showInView:self.view];
+	[actionSheet release];
+}
+
+- (void)actionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if(buttonIndex == actionSheet.cancelButtonIndex)
+	{
+		return;
+	}
+	else
+	{
+		[self setPreferenceValue:[NSNumber numberWithInt:buttonIndex]];
+	}
+}
+
 -(void)drawPreview
 {
     NSArray * array = [[self view] subviews];
@@ -339,7 +445,7 @@
 
 @end
 
-@interface StatusBarSettingsListController: PSListController {
+@interface StatusBarSettingsListController: PSListController <UIActionSheetDelegate> {
 }
 @end
 
@@ -371,6 +477,45 @@
 	[defaults writeToFile:PREFERENCES_PATH atomically:YES];
 	CFStringRef toPost = (CFStringRef)specifier.properties[@"PostNotification"];
 	if(toPost)CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
+}
+
+-(void)setPreferenceValue:(id)value
+{
+	NSMutableDictionary * defaults = [NSMutableDictionary dictionary];
+	[defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH]];
+	[defaults setObject:value forKey:@"statusBarStyleTheme"];
+	[defaults writeToFile:PREFERENCES_PATH atomically:YES];
+	CFStringRef toPost = (CFStringRef)@"com.joshdoctors.freeloader/settingschanged";
+	if(toPost)CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
+}
+
+-(void)themeList
+{
+	NSArray * direcs = [[NSUserDefaults standardUserDefaults] objectForKey:@"FreeLoaderDirecs"];
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Themes"
+														delegate:self
+														cancelButtonTitle:nil
+														destructiveButtonTitle:nil
+														otherButtonTitles:nil];
+
+	for(NSString* direc in direcs)
+		[actionSheet addButtonWithTitle:direc];
+
+	[actionSheet setCancelButtonIndex: [actionSheet addButtonWithTitle:@"Cancel"]];
+	[actionSheet showInView:self.view];
+	[actionSheet release];
+}
+
+- (void)actionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if(buttonIndex == actionSheet.cancelButtonIndex)
+	{
+		return;
+	}
+	else
+	{
+		[self setPreferenceValue:[NSNumber numberWithInt:buttonIndex]];
+	}
 }
 
 -(void)drawPreview

@@ -28,8 +28,8 @@
         <dict>
             <key>cell</key>             <string>PSEditTextCell</string>
             <key>defaults</key>         <string>com.joshdoctors.freeloader</string>
-            <key>key</key>              <string>grayStyleSpeed</string>
-            <key>label</key>            <string>Animation Speed</string>
+            <key>key</key>              <string>grayStyleFPS</string>
+            <key>label</key>            <string>Custom FPS</string>
             <key>PostNotification</key> <string>com.joshdoctors.freeloader/settingschanged</string>
         </dict>
         <dict>
@@ -38,22 +38,10 @@
             <key>action</key>           <string>save</string>
         </dict>
         <dict>
-			<key>PostNotification</key>
-			<string>com.joshdoctors.freeloader/settingschanged</string>
-			<key>cell</key>  		<string>PSLinkListCell</string>
-			<key>defaults</key> 	<string>com.joshdoctors.freeloader</string>
- 			<key>detail</key> 		<string>PSListItemsController</string>
- 			<key>key</key> 			<string>grayStyleTheme</string>
- 			<key>label</key> 		<string>Theme</string>
- 			<key>validTitles</key>
- 			<array>
- 			</array>
- 			<key>validValues</key>
- 			<array>
- 			</array>
- 			<key>id</key>
-			<string>themeList</string>
-		</dict>
+            <key>cell</key>             <string>PSButtonCell</string>
+            <key>label</key>            <string>Theme &#62;</string>
+            <key>action</key>           <string>themeList</string>
+        </dict>
         <dict>
             <key>cell</key>             <string>PSButtonCell</string>
             <key>label</key>            <string>Refresh Preview</string>

@@ -90,13 +90,19 @@
             <key>label</key>            <string>Creating A Custom Theme</string>
             <key>action</key>           <string>customTheme</string>
         </dict>
-		<dict>
+        <dict>
 			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>footerAlignment</key>
-			<integer>1</integer>
-			<key>footerText</key>
-			<string>Some applications may attempt to tint the color of the loading indicators. If you do not want this to happen, disable the 'Allow Colorization' toggle. Performing a respring will make changes occur immediately. If you add or remove themes from your device, you will have to reconfigure the theme location.</string>
+			<string>PSLinkCell</string>
+			<key>detail</key>
+			<string>QuickInfoListController</string>
+			<key>icon</key>
+			<string>quickInfo@2x.png</string>
+			<key>isController</key>
+			<true/>
+			<key>key</key>
+			<string>QuickInfo</string>
+			<key>label</key>
+			<string>Quick Info</string>
 		</dict>
 		<dict>
 			<key>cell</key>

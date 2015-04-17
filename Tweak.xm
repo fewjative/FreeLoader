@@ -8,24 +8,28 @@
 static BOOL enabled = NO;
 
 static NSInteger whiteStyleSpokeCount = 12;
-static CGFloat whiteStyleSpeed = 1;
+static NSInteger whiteStyleFPS = 30;
 static NSInteger whiteStyleTheme = 0;
 static BOOL whiteStyleCustomColor = NO;
+static BOOL whiteStyleOptimalFPS = YES;
 
 static NSInteger whiteLargeStyleSpokeCount = 12;
-static CGFloat whiteLargeStyleSpeed = 1;
+static NSInteger whiteLargeStyleFPS = 30;
 static NSInteger whiteLargeStyleTheme = 0;
 static BOOL whiteLargeStyleCustomColor = NO;
+static BOOL whiteLargeStyleOptimalFPS = YES;
 
 static NSInteger grayStyleSpokeCount = 12;
-static CGFloat grayStyleSpeed = 1;
+static NSInteger grayStyleFPS = 30;
 static NSInteger grayStyleTheme = 0;
 static BOOL grayStyleCustomColor = NO;
+static BOOL grayStyleOptimalFPS = YES;
 
 static NSInteger statusBarStyleSpokeCount = 8;
-static CGFloat statusBarStyleSpeed = 1;
+static NSInteger statusBarStyleFPS = 30;
 static NSInteger statusBarStyleTheme = 0;
 static BOOL statusBarStyleCustomColor = NO;
+static BOOL statusBarStyleOptimalFPS = YES;
 
 static bool isNumeric(NSString* input)
 {
@@ -44,45 +48,61 @@ static void loadPrefs()
 
 	temp = prefs[@"whiteStyleSpokeCount"];
 	whiteStyleSpokeCount = temp ? [temp intValue] : 12;
-	temp = prefs[@"whiteStyleSpeed"];
-	whiteStyleSpeed = temp ? [temp floatValue] : 1.0;
+    whiteStyleSpokeCount = whiteStyleSpokeCount > 0 ? whiteStyleSpokeCount : 1;
+	temp = prefs[@"whiteStyleFPS"];
+	whiteStyleFPS = temp ? [temp intValue] : 30;
+    whiteStyleFPS = whiteStyleFPS > 0 ? whiteStyleFPS : 30;
 	temp = prefs[@"whiteStyleTheme"];
 	whiteStyleTheme = temp ? [temp intValue] : 0;
 	temp = prefs[@"whiteStyleCustomColor"];
 	whiteStyleCustomColor = temp ? [temp boolValue] : 0;
+    temp = prefs[@"whiteStyleOptimalFPS"];
+    whiteStyleOptimalFPS = temp ? [temp boolValue] : 1;
 
 	temp = prefs[@"whiteLargeStyleSpokeCount"];
 	whiteLargeStyleSpokeCount = temp ? [temp intValue] : 12;
-	temp = prefs[@"whiteLargeStyleSpeed"];
-	whiteLargeStyleSpeed = temp ? [temp floatValue] : 1.0;
+    whiteLargeStyleSpokeCount = whiteLargeStyleSpokeCount > 0 ? whiteLargeStyleSpokeCount : 1;
+	temp = prefs[@"whiteLargeStyleFPS"];
+	whiteLargeStyleFPS = temp ? [temp intValue] : 30;
+    whiteLargeStyleFPS = whiteLargeStyleFPS > 0 ? whiteLargeStyleFPS : 30;
 	temp = prefs[@"whiteLargeStyleTheme"];
 	whiteLargeStyleTheme = temp ? [temp intValue] : 0;
 	temp = prefs[@"whiteLargeStyleCustomColor"];
 	whiteLargeStyleCustomColor = temp ? [temp boolValue] : 0;
+    temp = prefs[@"whiteLargeStyleOptimalFPS"];
+    whiteLargeStyleOptimalFPS = temp ? [temp boolValue] : 1;
 
 	temp = prefs[@"grayStyleSpokeCount"];
 	grayStyleSpokeCount = temp ? [temp intValue] : 12;
-	temp = prefs[@"grayStyleSpeed"];
-	grayStyleSpeed = temp ? [temp floatValue] : 1.0;
+    grayStyleSpokeCount = grayStyleSpokeCount > 0 ? grayStyleSpokeCount : 1;
+	temp = prefs[@"grayStyleFPS"];
+	grayStyleFPS = temp ? [temp intValue] : 30;
+    grayStyleFPS = grayStyleFPS > 0 ? grayStyleFPS : 30;
 	temp = prefs[@"grayStyleTheme"];
 	grayStyleTheme = temp ? [temp intValue] : 0;
 	temp = prefs[@"grayStyleCustomColor"];
 	grayStyleCustomColor = temp ? [temp boolValue] : 0;
+    temp = prefs[@"grayStyleOptimalFPS"];
+    grayStyleOptimalFPS = temp ? [temp boolValue] : 1;
 
 	temp = prefs[@"statusBarStyleSpokeCount"];
 	statusBarStyleSpokeCount = temp ? [temp intValue] : 8;
-	temp = prefs[@"statusBarStyleSpeed"];
-	statusBarStyleSpeed = temp ? [temp floatValue] : 1.0;
+    statusBarStyleSpokeCount = statusBarStyleSpokeCount > 0 ? statusBarStyleSpokeCount : 1;
+	temp = prefs[@"statusBarStyleFPS"];
+	statusBarStyleFPS = temp ? [temp intValue] : 30;
+    statusBarStyleFPS = statusBarStyleFPS > 0 ? statusBarStyleFPS : 30;
 	temp = prefs[@"statusBarStyleTheme"];
 	statusBarStyleTheme = temp ? [temp intValue] : 0;
 	temp = prefs[@"statusBarStyleCustomColor"];
 	statusBarStyleCustomColor = temp ? [temp boolValue] : 0;
+    temp = prefs[@"statusBarStyleOptimalFPS"];
+    statusBarStyleOptimalFPS = temp ? [temp boolValue] : 1;
 
 	NSLog(@"[FreeLoader]Prefs have changed: %d", enabled);
-	NSLog(@"%ld %f %ld %d", whiteStyleSpokeCount, whiteStyleSpeed, whiteStyleTheme, whiteStyleCustomColor);
-	NSLog(@"%ld %f %ld %d", whiteLargeStyleSpokeCount, whiteLargeStyleSpeed, whiteLargeStyleTheme, whiteLargeStyleCustomColor);
-	NSLog(@"%ld %f %ld %d", grayStyleSpokeCount, grayStyleSpeed, grayStyleTheme, grayStyleCustomColor);
-	NSLog(@"%ld %f %ld %d", statusBarStyleSpokeCount, statusBarStyleSpeed, statusBarStyleTheme, statusBarStyleCustomColor);
+	NSLog(@"%ld %f %ld %d %d", whiteStyleSpokeCount, whiteStyleFPS, whiteStyleTheme, whiteStyleCustomColor, whiteStyleOptimalFPS);
+	NSLog(@"%ld %f %ld %d %d", whiteLargeStyleSpokeCount, whiteLargeStyleFPS, whiteLargeStyleTheme, whiteLargeStyleCustomColor, whiteLargeStyleOptimalFPS);
+	NSLog(@"%ld %f %ld %d %d", grayStyleSpokeCount, grayStyleFPS, grayStyleTheme, grayStyleCustomColor, grayStyleOptimalFPS);
+	NSLog(@"%ld %f %ld %d %d", statusBarStyleSpokeCount, statusBarStyleFPS, statusBarStyleTheme, statusBarStyleCustomColor, statusBarStyleOptimalFPS);
 }
 
 %hook UIActivityIndicatorView
@@ -134,19 +154,19 @@ static void loadPrefs()
 
 		if(style == 0)
 	    {
-	        %orig(whiteLargeStyleSpeed);
+	       %orig(whiteLargeStyleSpokeCount/(whiteLargeStyleFPS*1.0));
 	    }
 	    else if(style == 1)
 	    {
-	        %orig(whiteStyleSpeed);
+	       %orig(whiteStyleSpokeCount/(whiteStyleFPS*1.0));
 	    }
 	    else if(style == 2)
 	    {
-	        %orig(grayStyleSpeed);
+	       %orig(grayStyleSpokeCount/(grayStyleFPS*1.0));
 	    }
 	    else if(style == 6)
 	    {
-	        %orig(statusBarStyleSpeed);
+	       %orig(statusBarStyleSpokeCount/(statusBarStyleFPS*1.0));
 	    }
 	    else
 	    {
@@ -161,7 +181,7 @@ static void loadPrefs()
 - (id)_layoutInfosForStyle:(long long)style
 {
 //    %log;
-//    NSLog(@"%ld %f %ld %ld %f %ld %ld %f %ld %ld %f %ld", whiteStyleSpokeCount, whiteStyleSpeed, whiteStyleTheme, whiteLargeStyleSpokeCount, whiteLargeStyleSpeed, whiteLargeStyleTheme, grayStyleSpokeCount, grayStyleSpeed, grayStyleTheme, statusBarStyleSpokeCount, statusBarStyleSpeed, statusBarStyleTheme);
+//    NSLog(@"%ld %f %ld %ld %f %ld %ld %f %ld %ld %f %ld", whiteStyleSpokeCount, whiteStyleFPS, whiteStyleTheme, whiteLargeStyleSpokeCount, whiteLargeStyleFPS, whiteLargeStyleTheme, grayStyleSpokeCount, grayStyleFPS, grayStyleTheme, statusBarStyleSpokeCount, statusBarStyleFPS, statusBarStyleTheme);
 
     NSDictionary * orig = %orig;
 
@@ -216,7 +236,7 @@ static void loadPrefs()
 + (id)_loadResourcesForStyle:(long long)style
 { 
 //    %log;
-//    NSLog(@"%ld %f %ld %ld %f %ld %ld %f %ld %ld %f %ld", whiteStyleSpokeCount, whiteStyleSpeed, whiteStyleTheme, whiteLargeStyleSpokeCount, whiteLargeStyleSpeed, whiteLargeStyleTheme, grayStyleSpokeCount, grayStyleSpeed, grayStyleTheme, statusBarStyleSpokeCount, statusBarStyleSpeed, statusBarStyleTheme);
+//    NSLog(@"%ld %f %ld %ld %f %ld %ld %f %ld %ld %f %ld", whiteStyleSpokeCount, whiteStyleFPS, whiteStyleTheme, whiteLargeStyleSpokeCount, whiteLargeStyleFPS, whiteLargeStyleTheme, grayStyleSpokeCount, grayStyleFPS, grayStyleTheme, statusBarStyleSpokeCount, statusBarStyleFPS, statusBarStyleTheme);
 
     id orig = %orig;
 
