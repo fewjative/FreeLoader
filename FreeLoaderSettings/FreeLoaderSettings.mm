@@ -578,7 +578,51 @@
 	}
 }
 
--(void)drawPreview:(long)style
+-(NSInteger)getCount:(NSInteger)style
+{
+	NSDictionary * prefs = [NSDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH];
+
+    if(style == 0)
+    {
+        return [prefs[@"whiteLargeStyleSpokeCount"] intValue];
+    }
+    else if(style == 1)
+    {
+        return [prefs[@"whiteStyleSpokeCount"] intValue];
+    }
+    else if(style == 2)
+    {
+        return [prefs[@"grayStyleSpokeCount"] intValue];
+    }
+    else if(style == 6)
+    {
+        return [prefs[@"statusBarStyleSpokeCount"] intValue];
+    }
+}
+
+-(NSInteger)getFPS:(NSInteger)style
+{
+	NSDictionary * prefs = [NSDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH];
+
+    if(style == 0)
+    {
+        return [prefs[@"whiteLargeStyleFPS"] intValue];
+    }
+    else if(style == 1)
+    {
+        return [prefs[@"whiteStyleFPS"] intValue];
+    }
+    else if(style == 2)
+    {
+        return [prefs[@"grayStyleFPS"] intValue];
+    }
+    else if(style == 6)
+    {
+        return [prefs[@"statusBarStyleFPS"] intValue];
+    }
+}
+
+-(void)drawPreview:(NSInteger)style
 {
 	NSLog(@"[FreeLoader]Drawing preview.");
 
@@ -598,7 +642,12 @@
 	
     UIImageView * animationImageView = [[UIImageView alloc] initWithFrame:rect];
     animationImageView.animationImages = images;
-    animationImageView.animationDuration = [spinner getAnimationDuration];
+
+    NSInteger spokeCount = [self getCount:style];
+    NSInteger fps = [self getFPS:style];
+    long double duration = (spokeCount*1.0)/(fps*1.0);
+    NSLog(@"[FreeLoader]Animation Duration: %Lg", duration);
+    animationImageView.animationDuration = duration;
     [self addSubview:animationImageView];
     [animationImageView startAnimating];
 

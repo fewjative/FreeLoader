@@ -31,6 +31,8 @@ static NSInteger statusBarStyleTheme = 0;
 static BOOL statusBarStyleCustomColor = NO;
 static BOOL statusBarStyleOptimalFPS = YES;
 
+static NSInteger _style;
+
 static bool isNumeric(NSString* input)
 {
 	if(!input)
@@ -107,8 +109,9 @@ static void loadPrefs()
 
 %hook UIActivityIndicatorView
 
-%new - (CGFloat)getAnimationDuration{
-	return MSHookIvar<CGFloat>(self, "_duration");
+%new - (double)getAnimationDuration{
+    double _duration = MSHookIvar<double>(self, "_duration");
+	return _duration;
 }
 
 - (bool)_hasCustomColor
@@ -119,21 +122,21 @@ static void loadPrefs()
 
 	if(enabled)
 	{
-		long style = [self activityIndicatorViewStyle];
+		_style = [self activityIndicatorViewStyle];
 
-		if(style == 0)
+		if(_style == 0)
 	    {
 	        return whiteLargeStyleCustomColor;
 	    }
-	    else if(style == 1)
+	    else if(_style == 1)
 	    {
 	        return whiteStyleCustomColor;
 	    }
-	    else if(style == 2)
+	    else if(_style == 2)
 	    {
 	        return grayStyleCustomColor;
 	    }
-	    else if(style == 6)
+	    else if(_style == 6)
 	    {
 	        return statusBarStyleCustomColor;
 	    }
@@ -144,29 +147,35 @@ static void loadPrefs()
 		return orig;
 }
 
--(void)setAnimationDuration:(CGFloat)duration
+/*
+-(void)setAnimationDuration:(double)duration
 {
 //	%log;
 
 	if(enabled)
 	{
-		long style = [self activityIndicatorViewStyle];
+		_style = [self activityIndicatorViewStyle];
 
-		if(style == 0)
+		if(_style == 0)
 	    {
-	       %orig(whiteLargeStyleSpokeCount/(whiteLargeStyleFPS*1.0));
+	       %orig((double)whiteLargeStyleSpokeCount/(whiteLargeStyleFPS*1.0));
 	    }
-	    else if(style == 1)
+	    else if(_style == 1)
 	    {
-	       %orig(whiteStyleSpokeCount/(whiteStyleFPS*1.0));
+	       %orig((double)whiteStyleSpokeCount/(whiteStyleFPS*1.0));
 	    }
-	    else if(style == 2)
+	    else if(_style == 2)
 	    {
-	       %orig(grayStyleSpokeCount/(grayStyleFPS*1.0));
+        NSLog(@"count: %d", grayStyleSpokeCount);
+        NSLog(@"FPS: %d", grayStyleFPS);
+        NSLog(@"dur: %ld",(long) grayStyleSpokeCount/(grayStyleFPS*1.0));
+        long double test =  (grayStyleSpokeCount*1.0)/(grayStyleFPS*1.0);
+        NSLog(@"test: %Lg", test);
+	       %orig(test);
 	    }
-	    else if(style == 6)
+	    else if(_style == 6)
 	    {
-	       %orig(statusBarStyleSpokeCount/(statusBarStyleFPS*1.0));
+	       %orig((double)statusBarStyleSpokeCount/(statusBarStyleFPS*1.0));
 	    }
 	    else
 	    {
@@ -176,6 +185,33 @@ static void loadPrefs()
 	}
 	else
 		%orig;
+}*/
+
+ %new -(void)setAnimationDuration
+{
+    _style = [self activityIndicatorViewStyle];
+    long double duration;
+
+        if(_style == 0)
+        {
+           duration = (whiteLargeStyleSpokeCount*1.0)/(whiteLargeStyleFPS*1.0);
+        }
+        else if(_style == 1)
+        {
+           duration = (whiteStyleSpokeCount*1.0)/(whiteStyleFPS*1.0);
+        }
+        else if(_style == 2)
+        {
+            duration =  (grayStyleSpokeCount*1.0)/(grayStyleFPS*1.0);
+        }
+        else if(_style == 6)
+        {
+           duration = (statusBarStyleSpokeCount*1.0)/(statusBarStyleFPS*1.0);
+        }
+
+        double _duration = MSHookIvar<double>(self,"_duration");
+        _duration = duration;
+        [self setAnimationDuration:_duration];
 }
 
 - (id)_layoutInfosForStyle:(long long)style
@@ -190,20 +226,21 @@ static void loadPrefs()
         NSDictionary * temp = [orig mutableCopy];
 
         long newCount;
+        _style = (long)style;
 
-        if(style == 0)
+        if(_style == 0)
         {
             newCount = whiteLargeStyleSpokeCount;
         }
-        else if(style == 1)
+        else if(_style == 1)
         {
             newCount = whiteStyleSpokeCount;
         }
-        else if(style == 2)
+        else if(_style == 2)
         {
             newCount = grayStyleSpokeCount;
         }
-        else if(style == 6)
+        else if(_style == 6)
         {
             newCount = statusBarStyleSpokeCount;
         }
@@ -215,7 +252,7 @@ static void loadPrefs()
         }
 
         [temp setObject:[NSNumber numberWithInt:newCount] forKey:@"spokeCount"];
-        [self setAnimationDuration:style];
+        [self setAnimationDuration];
         return temp;
     }
     else
@@ -235,8 +272,8 @@ static void loadPrefs()
 
 + (id)_loadResourcesForStyle:(long long)style
 { 
-//    %log;
-//    NSLog(@"%ld %f %ld %ld %f %ld %ld %f %ld %ld %f %ld", whiteStyleSpokeCount, whiteStyleFPS, whiteStyleTheme, whiteLargeStyleSpokeCount, whiteLargeStyleFPS, whiteLargeStyleTheme, grayStyleSpokeCount, grayStyleFPS, grayStyleTheme, statusBarStyleSpokeCount, statusBarStyleFPS, statusBarStyleTheme);
+    //%log;
+    //NSLog(@"%ld %d %ld %ld %d %ld %ld %d %ld %ld %d %ld", whiteStyleSpokeCount, whiteStyleFPS, whiteStyleTheme, whiteLargeStyleSpokeCount, whiteLargeStyleFPS, whiteLargeStyleTheme, grayStyleSpokeCount, grayStyleFPS, grayStyleTheme, statusBarStyleSpokeCount, statusBarStyleFPS, statusBarStyleTheme);
 
     id orig = %orig;
 
@@ -247,23 +284,24 @@ static void loadPrefs()
        long newCount;
        long fileIndex;
        NSString * themePath = nil;
+       _style = (long)style;
 
-        if(style == 0)
+        if(_style == 0)
         {
             newCount = whiteLargeStyleSpokeCount;
             themePath = [self getPathComponentFromIndex:whiteLargeStyleTheme];
         }
-        else if(style == 1)
+        else if(_style == 1)
         {
             newCount = whiteStyleSpokeCount;
             themePath = [self getPathComponentFromIndex:whiteStyleTheme];
         }
-        else if(style == 2)
+        else if(_style == 2)
         {
             newCount = grayStyleSpokeCount;
             themePath = [self getPathComponentFromIndex:grayStyleTheme];
         }
-        else if(style == 6)
+        else if(_style == 6)
         {
             newCount = statusBarStyleSpokeCount;
             themePath = [self getPathComponentFromIndex:statusBarStyleTheme];
@@ -281,19 +319,19 @@ static void loadPrefs()
        {
             NSString *imagePath = nil;
 
-            if(style == 0)
+            if(_style == 0)
             {
                 imagePath = [NSString stringWithFormat:@"/Library/Application Support/FreeLoader/%@/WhiteLarge.%d.png",themePath, i];
             }
-            else if(style == 1)
+            else if(_style == 1)
             {
                 imagePath = [NSString stringWithFormat:@"/Library/Application Support/FreeLoader/%@/White.%d.png",themePath, i];
             }
-            else if(style == 2)
+            else if(_style == 2)
             {
                 imagePath = [NSString stringWithFormat:@"/Library/Application Support/FreeLoader/%@/Gray.%d.png",themePath, i];
             }
-            else if(style == 6)
+            else if(_style == 6)
             {
                 imagePath = [NSString stringWithFormat:@"/Library/Application Support/FreeLoader/%@/StatusBar.%d.png",themePath, i];
             }
@@ -312,7 +350,7 @@ static void loadPrefs()
        else
        {
             NSLog(@"[FreeLoader]Loaded custom images.");
-            return array; 
+            return array;
        }
     }
     else
