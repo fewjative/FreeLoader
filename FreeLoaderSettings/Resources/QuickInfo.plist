@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+         <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+            <key>footerAlignment</key>
+            <integer>1</integer>
+            <key>footerText</key>
+            <string>Some applications may attempt to tint the color of the loading indicators. If you do not want this to happen, disable the 'Allow Colorization' toggle. Performing a respring will make changes occur immediately. If you add or remove themes from your device, you will have to reconfigure the theme location. 'Image Count' is the number of images used for the animation. For example, if the theme you are using has 60 pictures, the image count would be 60. If you put a value that is smaller, it will skip the remaining frames. To continue from the last example, if you put 30 as the image count, the animation would only use the first 30 images of the theme and would skip the rest. If you put a number that is larger, such as 70, inside the tweak it will reduce the count to the actual total number of images(60).</string>
+        </dict>   
+	</array>
+	<key>title</key>
+	<string>Quick Info</string>
+</dict>
+</plist>
